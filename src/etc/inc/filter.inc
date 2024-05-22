@@ -3244,8 +3244,9 @@ function filter_generate_address(& $rule, $target = "source", $isnat = false) {
 	} else if ($rule[$target]['address']) {
 		/* static host portion of IPv6, see https://redmine.pfsense.org/issues/6626 */
 		if (substr($rule[$target]['address'], 0, 2) == '::') {
-			$expsrc = merge_ipv6_delegated_prefix(get_interface_ipv6($rule['interface']),
-			    $rule[$target]['address'], get_interface_subnetv6($rule['interface']));
+			list($prefix_addr, $prefix_interface) = explode("%", $rule[$target]['address'], 2);
+			$expsrc = merge_ipv6_delegated_prefix(get_interface_ipv6($prefix_interface??$rule['interface']),
+			    $prefix_addr, get_interface_subnetv6($prefix_interface??$rule['interface']));
 		} else {
 			$expsrc = alias_expand($rule[$target]['address']);
 		}
