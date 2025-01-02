@@ -73,6 +73,7 @@
 	 *    - OpenDNS (opendns.com)
 	 *    - Porkbun (porkbun.com)
 	 *    - SelfHost (selfhost.de)
+	 *    - SelfHost IPv6 (selfhost.de)
 	 *    - SPDYN (spdyn.de)
 	 *    - SPDYN IPv6 (spdyn.de)
 	 *    - StaticCling (staticcling.org)
@@ -341,6 +342,7 @@
 				case 'gandi-livedns-v6':
 				case 'godaddy-v6':
 				case 'he-net-v6':
+				case 'selfhost-v6':
 				case 'linode-v6':
 				case 'mythicbeasts-v6':
 				case 'name.com-v6':
@@ -479,6 +481,7 @@
 					case 'route53':
 					case 'route53-v6':
 					case 'selfhost':
+					case 'selfhost-v6':
 					case 'spdyn':
 					case 'spdyn-v6':
 					case 'staticcling':
@@ -1096,6 +1099,7 @@
 					curl_setopt($ch, CURLOPT_URL, $server . 'hostname=' . $this->_dnsHost . '&myip=' . $this->_dnsIP);
 					break;
 				case 'selfhost':
+				case 'selfhost-v6':
 					$needsIP = FALSE;
 					if (isset($this->_dnsWildcard) && $this->_dnsWildcard != "OFF") {
 						$this->_dnsWildcard = "ON";
@@ -2605,6 +2609,7 @@
 					}
 					break;
 				case 'selfhost':
+				case 'selfhost-v6':
 					if (preg_match('/notfqdn/i', $data)) {
 						$status = $status_intro . $error_str . gettext("Not A FQDN!");
 					} else if (preg_match('/nochg/i', $data)) {
