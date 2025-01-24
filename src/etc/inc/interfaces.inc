@@ -7497,12 +7497,14 @@ function get_interface_addresses($interface) {
 	}
 
 	if ($v6addrs) {
-		// use the first IPv6 GUA address if one exists, otherwise the first address
+		// use the first valid IPv6 GUA address if one exists, otherwise the first address
 		$v6addr = $v6addrs[array_key_first($v6addrs)];
 		foreach ($v6addrs as $addr) {
 			if (is_v6gua($addr['addr'])) {
 				$v6addr = $addr;
-				break;
+				if (!is_v6deprecated($addr['addr'])) {
+					break;
+				}
 			}
 		}
 		$ifaddrs['ipaddr6'] = $v6addr['addr'];

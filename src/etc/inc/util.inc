@@ -939,6 +939,26 @@ function is_v6gua(string $ip_or_subnet): bool {
 	}
 }
 
+/**
+ * Checks if an IPv6 address is deprecated.
+ * 
+ * @param string $ip IPv6 address or subnet
+ * 
+ * @return bool
+ */
+function is_v6deprecated(string $ip_or_subnet): bool {
+	if (is_subnet($ip_or_subnet) == 6) {
+		list($ip_or_subnet) = explode('/', $ip_or_subnet);
+	}
+	if (!is_ipaddrv6($ip_or_subnet)) {
+		return false;
+	}
+	$ip_or_subnet = Net_IPv6::Compress($ip_or_subnet);
+	$ifconfig = [];
+	exec("/sbin/ifconfig -au inet6", $ifconfig);
+	return (preg_grep("/inet6 {$ip_or_subnet}.*deprecated/", $ifconfig) != false);
+}
+
 /* same as is_subnet() but accepts IPv4 only */
 function is_subnetv4($subnet) {
 	return (is_subnet($subnet) == 4);
